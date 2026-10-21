@@ -2,10 +2,19 @@
  * Login form handler
  */
 
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 async function handleLogin(email, password) {
   // Basic validation
   if (!email || !password) {
     throw new Error('Email and password are required');
+  }
+
+  if (!validateEmail(email)) {
+    throw new Error('Invalid email format');
   }
 
   const response = await fetch('/api/auth/login', {
@@ -47,5 +56,6 @@ module.exports = {
   handleLogin,
   isLoggedIn,
   logout,
-  getCurrentUser
+  getCurrentUser,
+  validateEmail
 };
